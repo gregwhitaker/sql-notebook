@@ -12,7 +12,7 @@ CREATE TABLE employees (
     hire_date   DATE            NOT NULL,
     department  INTEGER         REFERENCES departments(id) NOT NULL,
     email       VARCHAR(250)    NOT NULL,
-    salary      MONEY           NOT NULL
+    salary      NUMERIC         NOT NULL
 );
 CREATE INDEX employees_last_name_idx ON employees(last_name);
 CREATE INDEX employees_department_idx ON employees(department);

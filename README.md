@@ -1,4 +1,5 @@
 # sql-notebook
+A personal notebook of SQL examples.
 
 ## License
 MIT License

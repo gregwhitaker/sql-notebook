@@ -18,4 +18,5 @@ SELECT e.id,
 FROM employees e
 WHERE salary > (SELECT AVG(salary)
                 FROM employees
-                WHERE department = e.department);
+                WHERE department = e.department)
+ORDER BY salary_diff DESC;

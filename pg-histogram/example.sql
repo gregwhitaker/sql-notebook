@@ -18,8 +18,10 @@ ORDER BY bucket;
 
 -- Histogram of the distribution of employee salaries across the company with bucket ranges shown (10 buckets)
 SELECT width_bucket(salary, 50000, 250000, 10) as bucket,
-       int4range(CAST(MIN(salary) AS INTEGER), CAST(MAX(salary) AS INTEGER), '[]') as range,
+       int4range(CAST(MIN(salary) AS INTEGER), CAST(MAX(salary) AS INTEGER)) as range,
        count(*)
 FROM employees
 GROUP BY bucket
 ORDER BY bucket;
+
+-- Draw a histogram in the console

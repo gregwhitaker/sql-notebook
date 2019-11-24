@@ -1,5 +1,9 @@
 # sql-notebook
-A personal notebook of SQL examples.
+A personal notebook of SQL examples that I add to as I come across interesting queries I need to build
+for applications.
+
+## Bugs and Feedback
+For bugs, questions, and discussions please use the [Github Issues](https://github.com/gregwhitaker/sql-notebook/issues).
 
 ## License
 MIT License

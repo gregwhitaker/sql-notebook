@@ -17,24 +17,29 @@ GROUP BY bucket
 ORDER BY bucket;
 
 -- Histogram of the distribution of employee salaries across the company with bucket ranges shown (10 buckets)
-SELECT width_bucket(salary, 50000, 250000, 10) AS bucket,
-       int4range(cast(min(salary) AS INTEGER), cast(max(salary) AS INTEGER)) AS range,
+WITH salary_stats AS (
+    SELECT min(salary) as min,
+           max(salary) as max
+    FROM employees
+)
+SELECT width_bucket(salary, min, max, 9) AS bucket,
+       int4range(cast(min(salary) AS INTEGER), cast(max(salary) AS INTEGER), '[]') AS range,
        count(*)
-FROM employees
+FROM employees, salary_stats
 GROUP BY bucket
 ORDER BY bucket;
 
 -- Draw a histogram in the console
--- 1	[50422,69902)	91	■■■■■■■■■■■■■■■■■■■■■■■
--- 2	[70579,89944)	99	■■■■■■■■■■■■■■■■■■■■■■■■■
--- 3	[90502,109966)	106	■■■■■■■■■■■■■■■■■■■■■■■■■■
--- 4	[110326,129867)	86	■■■■■■■■■■■■■■■■■■■■■
--- 5	[130338,149944)	106	■■■■■■■■■■■■■■■■■■■■■■■■■■
--- 6	[150162,169872)	105	■■■■■■■■■■■■■■■■■■■■■■■■■■
--- 7	[170025,189920)	102	■■■■■■■■■■■■■■■■■■■■■■■■■
--- 8	[190361,209859)	84	■■■■■■■■■■■■■■■■■■■■■
--- 9	[210776,229683)	100	■■■■■■■■■■■■■■■■■■■■■■■■■
--- 10	[230091,249963)	121	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+-- 1	[50422,72537)	103	■■■■■■■■■■■■■■■■■■■■■■■■
+-- 2	[72799,94739)	108	■■■■■■■■■■■■■■■■■■■■■■■■■
+-- 3	[95014,116743)	120	■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+-- 4	[117085,139062)	93	■■■■■■■■■■■■■■■■■■■■■
+-- 5	[139215,161215)	116	■■■■■■■■■■■■■■■■■■■■■■■■■■■
+-- 6	[161360,183117)	114	■■■■■■■■■■■■■■■■■■■■■■■■■■
+-- 7	[183604,205556)	98	■■■■■■■■■■■■■■■■■■■■■■■
+-- 8	[205779,227714)	117	■■■■■■■■■■■■■■■■■■■■■■■■■■■
+-- 9	[227819,249853)	130	■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+-- 10	[249963,249964)	1
 
 WITH salary_stats AS (
     SELECT min(salary) as min,
@@ -42,8 +47,8 @@ WITH salary_stats AS (
     FROM employees
 ),
 histogram AS (
-    SELECT width_bucket(salary, 50000, 250000, 10) AS bucket,
-           int4range(cast(min(salary) AS INTEGER), cast(max(salary) AS INTEGER)) AS range,
+    SELECT width_bucket(salary, min, max, 9) AS bucket,
+           int4range(cast(min(salary) AS INTEGER), cast(max(salary) AS INTEGER), '[]') AS range,
            count(*) AS freq
     FROM employees, salary_stats
     GROUP BY bucket
